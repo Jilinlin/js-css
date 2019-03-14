@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+</head>
+<body>
+    <form action="" method="get">
+        <h1>毕业生信息</h1>
+        <fieldset style="width: 500px;">
+        <legend style="color:red;">
+            学生信息
+        </legend>
+        姓&nbsp;名&nbsp;<input type="text" style="width:180px;" name="username" autofocus="autofocus" required placeholder="请输入姓名"/>&nbsp;<span style="color:red;">*</span>
+        <br>
+        学&nbsp;号&nbsp;<input type="text" style="width:180px;"  name="number" placeholder="请输入学号"/>&nbsp;<span style="color:red;">*</span>
+        <br>
+        手&nbsp;机&nbsp;<input type="tel" style="width:180px;"  name="p" placeholder="请输入手机号"/>&nbsp;<span style="color:red;">*</span>
+        <br>
+        邮&nbsp;箱&nbsp;<input type="email" style="width:180px;"  name="email" placeholder="请输入邮箱地址"/>&nbsp;<span style="color:red;">*</span>
+        </fieldset>
+        <br>
+        <fieldset style="width: 500px;">
+        <legend style="color:red;">
+            录取情况
+        </legend>
+        录取学校&nbsp;<input type="search" style="width:180px;" list="school"/>
+		<datalist id="school">
+			<option>大连理工大学</option>
+			<option>天津大学</option>
+			<option>天津医科大学</option>
+			<option>西安电子科技大学</option>
+            <option>河北师范大学</option>
+            <option>河北理工大学</option>
+        </datalist>
+        <br>
+        入学成绩&nbsp;<input type="number"style="width:175px;" />
+        <br>
+        入学时间&nbsp;<input type="date" name="datedemo"/>
+        </fieldset>
+        <br>
+        <input type="submit" value="提交"/>
+    </form>
+</body>
+</html>
