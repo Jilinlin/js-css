@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>刮奖效果</title>
+	<style>
+      *{
+      	padding:0;
+      	margin:0;
+      	border:none;
+      }
+      #top{
+      	border:1px solid gray;
+      	position: absolute;
+      	top:100px;
+      	left: 100px;
+      }
+	</style>
+</head>
+
+<body>
+	<canvas id="top" width="320" height="160"></canvas>
+</body>
+<script>
+	var canvas=document.getElementById('top');//获取画布
+	var context=canvas.getContext('2d');
+
+	var img = new Image();
+  var imgs = ['p_0.jpg','p_1.jpg'];
+  var num = Math.floor(Math.random()*2);
+  img.src = imgs[num];
+
+	//绘制灰色遮罩层
+	context.beginPath();//开启路径
+	context.fillStyle="silver";//填充绘画的颜色
+	context.fillRect(0,0,320,160);//实际绘制
+	context.closePath();//关闭路径
+
+	context.globalCompositeOperation="destination-out"; //新图像和原图像重合部分变透明
+
+	canvas.addEventListener('mousedown',function(e){//事件监听，鼠标按下
+		canvas.style.backgroundImage='url('+img.src+')';//设置获奖结果图片
+		var e=e||window.event;
+		//获得x，y坐标
+		var x=e.clientX-canvas.offsetLeft;
+		var y=e.clientY-canvas.offsetTop;
+	  context.moveTo(x,y);
+		canvas.addEventListener('mousemove',gmove,false);//鼠标移动
+	},false);
+
+	canvas.addEventListener('mouseup',function(){//鼠标松开
+		clear();//执行clear函数
+		canvas.removeEventListener('mousemove',gmove,false);//鼠标移动
+	},false);
+
+	function gmove(e){//执行刮卡函数
+		var mx=e.clientX-canvas.offsetLeft;
+		var my=e.clientY-canvas.offsetTop;
+		context.strokeStyle="white";
+		context.lineCap="round";//绘制的线结束时为圆形
+		context.lineJoin="round";//当两条线交汇时创建圆形边角
+		context.lineWidth=20;
+		context.lineTo(mx,my);
+		context.stroke();
+	}
+	//当用户涂抹了85%后，去掉涂层完成刮奖
+	function clear(){              
+		var data=context.getImageData(0,0,canvas.width,canvas.height).data;   
+		//data.length=c.width*c.heigth*4
+		//一个像素块是一个对象RGBA四个值,A范围为0~255
+		for(var i=0,j=0;i<data.length;i+=4){ 
+			//存在imageData对象时j加1
+			if(data[i]&&data[i+1]&&data[i+2]&&data[i+3]){      
+				j++;
+			}
+		}
+		//超过canvas面积的85%，就清除画布
+		if(j<=canvas.width*canvas.height*0.15){
+	  	context.clearRect(0,0,canvas.width,canvas.height);
+		}
+	}
+</script>
+</html>
